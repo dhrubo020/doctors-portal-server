@@ -50,16 +50,15 @@ client.connect(err => {
         const file = req.files.file;
         const name = req.body.name;
         const email = req.body.email;
-        console.log(file, name, email);
-
         const newImg = file.data;
-        const encodedImg = newImg.toString('base64');
-        const image = {
+        const encImg = newImg.toString('base64');
+
+        var image = {
             contentType: file.mimetype,
             size: file.size,
-            img: Buffer.from(encodedImg, 'base64')
-        }
-
+            img: Buffer.from(encImg, 'base64')
+        };
+        console.log(name, email, image)
         doctor_collection.insertOne({ name, email, image })
             .then(result => {
                 res.send(result.insertedCount > 0)
@@ -81,5 +80,5 @@ app.get('/', (req, res) => {
 })
 
 app.listen(process.env.PORT || port, () => {
-    console.log(`App listening at http://localhost:${port}`)
+    console.log(`Listening at http://localhost:${port}`)
 })
